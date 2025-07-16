@@ -1,0 +1,6 @@
+# Lo
+logs
+*.log
+
+node_modules
+8.env
