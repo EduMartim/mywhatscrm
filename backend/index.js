@@ -34,11 +34,13 @@ const clientesRoutes = require('./routes/clientes');
 const imoveisRoutes = require('./routes/imoveis');
 const interacoesRoutes = require('./routes/interacoes');
 const tarefasRoutes = require('./routes/tarefas');
+const corretoresRouter = require('./routes/corretores');
 
 app.use('/api/clientes', clientesRoutes);
 app.use('/api/imoveis', imoveisRoutes);
 app.use('/api/interacoes', interacoesRoutes);
 app.use('/api/tarefas', tarefasRoutes);
+app.use('/api/corretores', corretoresRouter);
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);

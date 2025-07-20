@@ -1,23 +1,49 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// GET todas as tarefas
-router.get('/', async (req, res) => {
-    const [rows] = await req.db.query('SELECT * FROM tarefas');
+// Lista todas as tarefas
+router.get("/", async (req, res) => {
+  try {
+    const [rows] = await req.db.query("SELECT * FROM tarefas");
     res.json(rows);
+  } catch (err) {
+    console.error("Erro ao buscar todas as tarefas:", err);
+    res.status(500).json({ error: "Erro ao buscar tarefas" });
+  }
+});
+
+// Lista tarefas de um cliente específico
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await req.db.query(
+      "SELECT * FROM tarefas WHERE cliente_id = ?",
+      [id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("Erro ao buscar tarefas do cliente:", err);
+    res.status(500).json({ error: "Erro ao buscar tarefas" });
+  }
 });
 
 // POST nova tarefa
 router.post('/', async (req, res) => {
-    const { titulo, descricao, data_vencimento, concluida } = req.body;
+    const { titulo, descricao, data_vencimento, concluida, cliente_id } = req.body;
 
-    const [result] = await req.db.query(
-        `INSERT INTO tarefas (titulo, descricao, data_vencimento, concluida)
-         VALUES (?, ?, ?, ?)`,
-        [titulo, descricao, data_vencimento, concluida]
-    );
+    try {
+        const [result] = await req.db.query(
+            `INSERT INTO tarefas
+            (titulo, descricao, data_vencimento, concluida, cliente_id)
+            VALUES (?, ?, ?, ?, ?)`,
+            [titulo, descricao, data_vencimento, concluida, cliente_id]
+        );
 
-    res.status(201).json({ id: result.insertId });
+        res.status(201).json({ id: result.insertId });
+    } catch (err) {
+        console.error("Erro ao inserir tarefa:", err);
+        res.status(500).json({ error: "Erro ao inserir tarefa" });
+    }
 });
 
 // PUT tarefa

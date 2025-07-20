@@ -1,2 +1,2 @@
 # mywhatscrm
-FullStack CRM project 
+FullStack CRM project

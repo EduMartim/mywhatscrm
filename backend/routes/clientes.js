@@ -2,19 +2,33 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const [rows] = await req.db.query("SELECT * FROM clientes");
-  res.json(rows);
+  try {
+    const [rows] = await req.db.query("SELECT * FROM clientes");
+    res.json(rows);
+  } catch (error) {
+    console.error("Erro ao buscar clientes:", error);
+    res.status(500).json({ error: "Erro ao buscar clientes" });
+  }
 });
 
-router.post("/", async (req, res) => {
-  const { nome, email, telefone, tipo, origem, status, observacoes } = req.body;
-  const [result] = await req.db.query(
-    `INSERT INTO clientes (nome, email, telefone, tipo, origem, status, observacoes)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [nome, email, telefone, tipo, origem, status, observacoes]
-  );
-  res.status(201).json({ id: result.insertId });
+router.post('/', async (req, res) => {
+    const { nome, email, telefone, cpf, tipo, origem, status, observacoes, corretor_id } = req.body;
+
+    try {
+        const [result] = await req.db.query(
+            `INSERT INTO clientes
+            (nome, email, telefone, cpf, tipo, origem, status, observacoes, corretor_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [nome, email, telefone, cpf, tipo, origem, status, observacoes, corretor_id]
+        );
+
+        res.status(201).json({ id: result.insertId });
+    } catch (err) {
+        console.error("Erro ao inserir cliente:", err);
+        res.status(500).json({ error: "Erro ao inserir cliente" });
+    }
 });
+
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;

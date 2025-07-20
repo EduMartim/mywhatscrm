@@ -1,10 +1,30 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-// GET todas as interações
-router.get('/', async (req, res) => {
-    const [rows] = await req.db.query('SELECT * FROM interacoes');
+// Lista todas as interações
+router.get("/", async (req, res) => {
+  try {
+    const [rows] = await req.db.query("SELECT * FROM interacoes");
     res.json(rows);
+  } catch (err) {
+    console.error("Erro ao buscar todas as interações:", err);
+    res.status(500).json({ error: "Erro ao buscar interações" });
+  }
+});
+
+// Lista interações de um cliente específico
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await req.db.query(
+      "SELECT * FROM interacoes WHERE cliente_id = ?",
+      [id]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error("Erro ao buscar interações do cliente:", err);
+    res.status(500).json({ error: "Erro ao buscar interações" });
+  }
 });
 
 // POST nova interação
