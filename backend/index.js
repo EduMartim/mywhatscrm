@@ -1,7 +1,15 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const mysql = require('mysql2/promise');
+// Importando os pacotes com a sintaxe ES Module
+import 'dotenv/config'; // O .config() é executado automaticamente
+import express from 'express';
+import cors from 'cors';
+import mysql from 'mysql2/promise';
+
+// Importando as rotas. É importante adicionar a extensão .js no final
+import clientesRoutes from './routes/clientes.js';
+import imoveisRoutes from './routes/imoveis.js';
+import interacoesRoutes from './routes/interacoes.js';
+import tarefasRoutes from './routes/tarefas.js';
+import corretoresRouter from './routes/corretores.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,29 +21,28 @@ app.use(cors());
 const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  password: process.env.DB_PASSWORD, // Corrigido para corresponder ao .env que fizemos
   database: process.env.DB_NAME,
 };
 let connection;
 async function connectDB() {
-  connection = await mysql.createConnection(dbConfig);
-  console.log('✅ Conectado ao MySQL');
+  try {
+    connection = await mysql.createConnection(dbConfig);
+    console.log('✅ Conectado ao MySQL');
+  } catch (error) {
+    console.error('❌ Erro ao conectar ao banco de dados:', error);
+    process.exit(1); // Encerra a aplicação se não conseguir conectar ao DB
+  }
 }
 connectDB();
 
 // Middleware para deixar a conexão acessível às rotas
 app.use((req, res, next) => {
-  req.db = connection;  // trocamos de req.connection para req.db
+  req.db = connection;
   next();
 });
 
 // Rotas
-const clientesRoutes = require('./routes/clientes');
-const imoveisRoutes = require('./routes/imoveis');
-const interacoesRoutes = require('./routes/interacoes');
-const tarefasRoutes = require('./routes/tarefas');
-const corretoresRouter = require('./routes/corretores');
-
 app.use('/api/clientes', clientesRoutes);
 app.use('/api/imoveis', imoveisRoutes);
 app.use('/api/interacoes', interacoesRoutes);

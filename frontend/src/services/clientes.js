@@ -1,31 +1,15 @@
-const API_URL = "http://localhost:3000/api/clientes";
+// frontend/src/services/clientes.js (exemplo refatorado)
 
-export async function getClientes() {
-  const res = await fetch(API_URL);
-  return await res.json();
-}
+import api from './api';
 
-export async function createCliente(cliente) {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(cliente),
-  });
-  return await res.json();
-}
+// GET /clientes
+export const getClientes = () => api.get('/clientes');
 
-export async function updateCliente(id, cliente) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(cliente),
-  });
-  return res.status;
-}
+// POST /clientes
+export const createCliente = (dadosDoCliente) => api.post('/clientes', dadosDoCliente);
 
-export async function deleteCliente(id) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
-  return res.status;
-}
+// PUT /clientes/:id
+export const updateCliente = (id, dadosDoCliente) => api.put(`/clientes/${id}`, dadosDoCliente);
+
+// DELETE /clientes/:id
+export const deleteCliente = (id) => api.delete(`/clientes/${id}`);
