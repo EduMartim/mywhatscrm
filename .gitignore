@@ -1,0 +1,50 @@
+# =============================================================================
+# Arquivo .gitignore para projetos Node.js (Frontend/Backend)
+# Este arquivo consolidado evita que arquivos desnecessários ou sensíveis
+# sejam enviados para o repositório Git.
+# =============================================================================
+
+## Dependências
+# Ignora os pacotes instalados via npm, yarn, pnpm, etc.
+node_modules/
+
+## Saídas de Build (Build Output)
+# Ignora as pastas com os arquivos finais gerados para produção.
+dist/
+dist-ssr/
+
+## Logs
+# Ignora logs gerados pela aplicação ou por gerenciadores de pacotes.
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+## Variáveis de Ambiente
+# Arquivos de ambiente contêm chaves de API e outras informações sensíveis.
+# O padrão *.local é usado por ferramentas como o Vite para configurações locais.
+.env
+.env.local
+.env.*.local
+*.local
+
+## Arquivos de Configuração de Editores e IDEs
+# Evita conflitos de configuração de editores entre os desenvolvedores da equipe.
+# A exceção "!/.vscode/extensions.json" é uma boa prática para compartilhar
+# extensões recomendadas do VSCode sem compartilhar configurações pessoais.
+.idea/
+.vscode/*
+!/.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+## Arquivos de Sistema Operacional
+# Ignora arquivos de cache e metadados gerados pelo macOS e Windows.
+.DS_Store
+Thumbs.db
