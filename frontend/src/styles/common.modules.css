@@ -1,0 +1,66 @@
+.container {
+  padding: 24px;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  background-color: #f87171; /* vermelho leve */
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.table {
+  min-width: 100%;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border-collapse: collapse;
+}
+
+.theadRow {
+  background-color: #f3f4f6; /* cinza leve */
+}
+
+.td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.editBtn {
+  color: #2563eb; /* azul */
+}
+
+.deleteBtn {
+  color: #dc2626; /* vermelho */
+  margin-left: 8px;
+}
+
+.detailsCell {
+  background-color: #f9fafb; /* cinza mais claro */
+  padding: 16px;
+}
+
+.gridDetails {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .gridDetails {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.bold {
+  font-weight: 600;
+}

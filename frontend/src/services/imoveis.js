@@ -1,31 +1,10 @@
-const API_URL = "http://localhost:3000/api/imoveis";
+import api from "./api";
 
-export async function getImoveis(clienteId) {
-  const res = await fetch(`${API_URL}?clienteId=${clienteId}`);
-  return await res.json();
-}
+export const getImoveis = (clienteId) =>
+  api.get(`/imoveis`, { params: { clienteId } });
 
-export async function createImovel(imovel) {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imovel),
-  });
-  return await res.json();
-}
+export const createImovel = (imovel) => api.post(`/imoveis`, imovel);
 
-export async function updateImovel(id, imovel) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imovel),
-  });
-  return res.status;
-}
+export const updateImovel = (id, imovel) => api.put(`/imoveis/${id}`, imovel);
 
-export async function deleteImovel(id) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
-  return res.status;
-}
+export const deleteImovel = (id) => api.delete(`/imoveis/${id}`);

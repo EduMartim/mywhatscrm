@@ -1,38 +1,47 @@
 import { useEffect, useState } from "react";
 import { getImoveis } from "../services/imoveis";
+import styles from "./ListaImoveis.module.css";
 
-function ListaImoveis() {
+export default function ListaImoveis() {
   const [imoveis, setImoveis] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchImoveis() {
-      const data = await getImoveis(); // sem clienteId
+    async function fetchData() {
+      const data = await getImoveis();
       setImoveis(data);
-      setLoading(false);
     }
-
-    fetchImoveis();
+    fetchData();
   }, []);
 
-  if (loading) return <p>Carregando imóveis...</p>;
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl mb-4">Lista de Imóveis</h1>
-      {imoveis.length > 0 ? (
-        imoveis.map((i) => (
-          <div key={i.id} className="border p-2 rounded mb-2 shadow">
-            <p><strong>{i.titulo}</strong></p>
-            <p>Preço: {i.preco}</p>
-            <p>Status: {i.status}</p>
-          </div>
-        ))
-      ) : (
-        <p>Nenhum imóvel encontrado.</p>
-      )}
+    <div className={styles.container}>
+      <h1 className={styles.title}>Lista de Imóveis</h1>
+
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.th}>ID</th>
+            <th className={styles.th}>Título</th>
+            <th className={styles.th}>Preço</th>
+            <th className={styles.th}>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {imoveis.map((i) => (
+            <tr key={i.id}>
+              <td className={styles.td}>{i.id}</td>
+              <td className={styles.td}>{i.titulo}</td>
+              <td className={styles.td}>{i.preco}</td>
+              <td className={styles.td}>
+                <div className={styles.actions}>
+                  <button>Editar</button>
+                  <button>Excluir</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
-
-export default ListaImoveis;

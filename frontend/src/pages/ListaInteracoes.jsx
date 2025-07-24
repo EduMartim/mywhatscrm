@@ -1,38 +1,35 @@
 import { useEffect, useState } from "react";
 import { getInteracoes } from "../services/interacoes";
+import styles from "./ListaInteracoes.module.css";
 
-function ListaInteracoes() {
+export default function ListaInteracoes() {
   const [interacoes, setInteracoes] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchInteracoes() {
-      const data = await getInteracoes(); // sem clienteId
+    async function fetchData() {
+      const data = await getInteracoes();
       setInteracoes(data);
-      setLoading(false);
     }
-
-    fetchInteracoes();
+    fetchData();
   }, []);
 
-  if (loading) return <p>Carregando interações...</p>;
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl mb-4">Lista de Interações</h1>
-      {interacoes.length > 0 ? (
-        interacoes.map((i) => (
-          <div key={i.id} className="border p-2 rounded mb-2 shadow">
+    <div className={styles.container}>
+      <h1 className={styles.title}>Lista de Interações</h1>
+
+      <ul className={styles.list}>
+        {interacoes.map((i) => (
+          <li key={i.id} className={styles.listItem}>
             <p><strong>Canal:</strong> {i.canal}</p>
             <p><strong>Descrição:</strong> {i.descricao}</p>
-            <p><strong>Data:</strong> {new Date(i.data).toLocaleString()}</p>
-          </div>
-        ))
-      ) : (
-        <p>Nenhuma interação encontrada.</p>
-      )}
+            <div className={styles.actions}>
+              <button>Editar</button>
+              <button>Excluir</button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default ListaInteracoes;

@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getClientes } from "../services/clientes";
 import { getImoveis } from "../services/imoveis";
 import { getInteracoes } from "../services/interacoes";
 import { getTarefas } from "../services/tarefas";
+import styles from "./ListaClientes.module.css";
 
 function ListaClientes() {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
-
   const [dadosPorCliente, setDadosPorCliente] = useState({});
 
   useEffect(() => {
     async function fetchData() {
       const data = await getClientes();
-
       setClientes(data);
       setLoading(false);
     }
-
     fetchData();
   }, []);
 
@@ -53,37 +51,34 @@ function ListaClientes() {
   if (loading) return <p>Carregando clientes...</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl mb-4">Lista de Clientes</h1>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Lista de Clientes</h1>
 
-      <table className="min-w-full bg-white shadow rounded">
+      <table className={styles.table}>
         <thead>
-          <tr className="bg-gray-100">
-            <th className="p-2">#</th>
-            <th className="p-2">Nome</th>
-            <th className="p-2">Email</th>
-            <th className="p-2">Telefone</th>
-            <th className="p-2">Ações</th>
-            <th className="p-2">Detalhes</th>
+          <tr className={styles.theadRow}>
+            <th className={styles.td}>#</th>
+            <th className={styles.td}>Nome</th>
+            <th className={styles.td}>Email</th>
+            <th className={styles.td}>Telefone</th>
+            <th className={styles.td}>Ações</th>
+            <th className={styles.td}>Detalhes</th>
           </tr>
         </thead>
         <tbody>
           {clientes.map((cliente) => (
-            <>
-              <tr key={cliente.id}>
-                <td className="p-2">{cliente.id}</td>
-                <td className="p-2">{cliente.nome}</td>
-                <td className="p-2">{cliente.email}</td>
-                <td className="p-2">{cliente.telefone}</td>
-                <td className="p-2">
-                  <button className="text-blue-600">Editar</button>
-                  <button className="text-red-600 ml-2">Excluir</button>
+            <React.Fragment key={cliente.id}>
+              <tr>
+                <td className={styles.td}>{cliente.id}</td>
+                <td className={styles.td}>{cliente.nome}</td>
+                <td className={styles.td}>{cliente.email}</td>
+                <td className={styles.td}>{cliente.telefone}</td>
+                <td className={styles.td}>
+                  <button className={styles.editBtn}>Editar</button>
+                  <button className={styles.deleteBtn}>Excluir</button>
                 </td>
-                <td className="p-2">
-                  <button
-                    onClick={() => handleExpand(cliente.id)}
-                    className="text-gray-600 hover:text-black"
-                  >
+                <td className={styles.td}>
+                  <button onClick={() => handleExpand(cliente.id)}>
                     {expandedId === String(cliente.id) ? "▲" : "▼"}
                   </button>
                 </td>
@@ -91,16 +86,13 @@ function ListaClientes() {
 
               {expandedId === String(cliente.id) && (
                 <tr key={`details-${cliente.id}`}>
-                  <td colSpan="6" className="bg-gray-50 p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <td colSpan="6" className={styles.detailsCell}>
+                    <div className={styles.gridDetails}>
                       <div>
-                        <h2 className="font-semibold">Imóveis</h2>
+                        <h2 className={styles.bold}>Imóveis</h2>
                         {(dadosPorCliente[String(cliente.id)]?.imoveis || []).length > 0
                           ? dadosPorCliente[String(cliente.id)].imoveis.map((i) => (
-                              <div
-                                key={i.id}
-                                className="border p-2 rounded mb-2"
-                              >
+                              <div key={i.id} className={styles.card}>
                                 <p>{i.titulo}</p>
                                 <p>Preço: {i.preco}</p>
                               </div>
@@ -109,13 +101,10 @@ function ListaClientes() {
                       </div>
 
                       <div>
-                        <h2 className="font-semibold">Interações</h2>
+                        <h2 className={styles.bold}>Interações</h2>
                         {(dadosPorCliente[String(cliente.id)]?.interacoes || []).length > 0
                           ? dadosPorCliente[String(cliente.id)].interacoes.map((i) => (
-                              <div
-                                key={i.id}
-                                className="border p-2 rounded mb-2"
-                              >
+                              <div key={i.id} className={styles.card}>
                                 <p>{i.canal}</p>
                                 <p>{i.descricao}</p>
                               </div>
@@ -124,13 +113,10 @@ function ListaClientes() {
                       </div>
 
                       <div>
-                        <h2 className="font-semibold">Tarefas</h2>
+                        <h2 className={styles.bold}>Tarefas</h2>
                         {(dadosPorCliente[String(cliente.id)]?.tarefas || []).length > 0
                           ? dadosPorCliente[String(cliente.id)].tarefas.map((t) => (
-                              <div
-                                key={t.id}
-                                className="border p-2 rounded mb-2"
-                              >
+                              <div key={t.id} className={styles.card}>
                                 <p>{t.titulo}</p>
                                 <p>{t.concluida ? "Concluída" : "Pendente"}</p>
                               </div>
@@ -141,7 +127,7 @@ function ListaClientes() {
                   </td>
                 </tr>
               )}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>

@@ -1,31 +1,12 @@
-const API_URL = "http://localhost:3000/api/interacoes";
+import api from "./api";
 
-export async function getInteracoes(clienteId) {
-  const res = await fetch(`${API_URL}?clienteId=${clienteId}`);
-  return await res.json();
-}
+export const getInteracoes = (clienteId) =>
+  api.get(`/interacoes`, { params: { clienteId } });
 
-export async function createInteracao(interacao) {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(interacao),
-  });
-  return await res.json();
-}
+export const createInteracao = (interacao) =>
+  api.post(`/interacoes`, interacao);
 
-export async function updateInteracao(id, interacao) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(interacao),
-  });
-  return res.status;
-}
+export const updateInteracao = (id, interacao) =>
+  api.put(`/interacoes/${id}`, interacao);
 
-export async function deleteInteracao(id) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
-  return res.status;
-}
+export const deleteInteracao = (id) => api.delete(`/interacoes/${id}`);

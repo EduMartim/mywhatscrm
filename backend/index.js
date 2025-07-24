@@ -9,13 +9,12 @@ import clientesRoutes from './routes/clientes.js';
 import imoveisRoutes from './routes/imoveis.js';
 import interacoesRoutes from './routes/interacoes.js';
 import tarefasRoutes from './routes/tarefas.js';
-import corretoresRouter from './routes/corretores.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // Conexão com banco
 const dbConfig = {
@@ -47,7 +46,6 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/imoveis', imoveisRoutes);
 app.use('/api/interacoes', interacoesRoutes);
 app.use('/api/tarefas', tarefasRoutes);
-app.use('/api/corretores', corretoresRouter);
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);

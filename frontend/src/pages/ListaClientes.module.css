@@ -1,0 +1,62 @@
+.container {
+  padding: 24px;
+}
+
+.heading {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  background-color: #f87171; /* equivalente ao bg-red-500 */
+  color: white;
+}
+
+.table {
+  min-width: 100%;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.theadRow {
+  background-color: #f3f4f6; /* equivalente ao bg-gray-100 */
+}
+
+.td {
+  padding: 8px;
+}
+
+.editBtn {
+  color: #2563eb; /* blue-600 */
+}
+
+.deleteBtn {
+  color: #dc2626; /* red-600 */
+  margin-left: 8px;
+}
+
+.detailsCell {
+  background-color: #f9fafb; /* gray-50 */
+  padding: 16px;
+}
+
+.gridDetails {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .gridDetails {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.bold {
+  font-weight: 600;
+}

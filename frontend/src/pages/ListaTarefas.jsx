@@ -1,37 +1,51 @@
 import { useEffect, useState } from "react";
 import { getTarefas } from "../services/tarefas";
+import styles from "./ListaTarefas.module.css";
 
-function ListaTarefas() {
+export default function ListaTarefas() {
   const [tarefas, setTarefas] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchTarefas() {
-      const data = await getTarefas(); // sem clienteId
+    async function fetchData() {
+      const data = await getTarefas();
       setTarefas(data);
-      setLoading(false);
     }
-
-    fetchTarefas();
+    fetchData();
   }, []);
 
-  if (loading) return <p>Carregando tarefas...</p>;
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl mb-4">Lista de Tarefas</h1>
-      {tarefas.length > 0 ? (
-        tarefas.map((t) => (
-          <div key={t.id} className="border p-2 rounded mb-2 shadow">
-            <p><strong>{t.titulo}</strong></p>
-            <p>{t.concluida ? "✅ Concluída" : "⏳ Pendente"}</p>
-          </div>
-        ))
-      ) : (
-        <p>Nenhuma tarefa encontrada.</p>
-      )}
+    <div className={styles.container}>
+      <h1 className={styles.title}>Lista de Tarefas</h1>
+
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th className={styles.th}>ID</th>
+            <th className={styles.th}>Título</th>
+            <th className={styles.th}>Status</th>
+            <th className={styles.th}>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tarefas.map((t) => (
+            <tr key={t.id}>
+              <td className={styles.td}>{t.id}</td>
+              <td className={styles.td}>{t.titulo}</td>
+              <td className={styles.td}>
+                {t.concluida ? (
+                  <span className={styles.status}>Concluída</span>
+                ) : (
+                  <span className={styles.statusPending}>Pendente</span>
+                )}
+              </td>
+              <td className={styles.td}>
+                <button>Editar</button>
+                <button>Excluir</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
-
-export default ListaTarefas;

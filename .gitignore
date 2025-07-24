@@ -48,3 +48,6 @@ lerna-debug.log*
 # Ignora arquivos de cache e metadados gerados pelo macOS e Windows.
 .DS_Store
 Thumbs.db
+
+# não manter api.js duplicado fora da pasta services
+/src/api.js

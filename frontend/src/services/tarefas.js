@@ -1,31 +1,10 @@
-const API_URL = "http://localhost:3000/api/tarefas";
+import api from "./api";
 
-export async function getTarefas(clienteId) {
-  const res = await fetch(`${API_URL}?clienteId=${clienteId}`);
-  return await res.json();
-}
+export const getTarefas = (clienteId) =>
+  api.get(`/tarefas`, { params: { clienteId } });
 
-export async function createTarefa(tarefa) {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(tarefa),
-  });
-  return await res.json();
-}
+export const createTarefa = (tarefa) => api.post(`/tarefas`, tarefa);
 
-export async function updateTarefa(id, tarefa) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(tarefa),
-  });
-  return res.status;
-}
+export const updateTarefa = (id, tarefa) => api.put(`/tarefas/${id}`, tarefa);
 
-export async function deleteTarefa(id) {
-  const res = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
-  return res.status;
-}
+export const deleteTarefa = (id) => api.delete(`/tarefas/${id}`);
